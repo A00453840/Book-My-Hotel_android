@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">InClassApplication</string>
+    <string name="welcome_text">Welcome to Book-my-Room</string>
+    <string name="search_button_text">Search</string>
+</resources>
