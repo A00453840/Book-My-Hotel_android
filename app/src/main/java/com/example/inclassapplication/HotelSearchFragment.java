@@ -83,9 +83,33 @@ public class HotelSearchFragment extends Fragment {
 
 //        numberOfGuests = guestsEditText.getText().toString();
 
+        //Set up the text of confirm text box
+//        confirmSearchButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                checkInDate = getDateFromCalendar(checkInDatePicker);
+//                checkOutDate = getDateFromCalendar(checkOutDatePicker);
+//                //Get input of guests count
+//                numberOfGuests = guestsCountEditText.getText().toString();
+//                guestName = nameEditText.getText().toString();
+//
+//
+//                // Saving into shared preferences
+//                sharedPreferences = getActivity().getSharedPreferences(myPreference, Context.MODE_PRIVATE);
+//                SharedPreferences.Editor editor = sharedPreferences.edit();
+//                editor.putString(name, guestName);
+//                editor.putString(guestsCount, numberOfGuests);
+//                editor.commit();
+//
+//
+//
+//                searchTextConfirmationTextView.setText("Dear Customer, Your check in date is " + checkInDate + ", " +
+//                        "your checkout date is " + checkOutDate + ".The number of guests are " + numberOfGuests);
+//            }
+//        });
+
 
     }
-
 
     private String getDateFromCalender(DatePicker datePicker)
     {
@@ -100,4 +124,29 @@ public class HotelSearchFragment extends Fragment {
         return simpleDateFormat.format(calender.getTime());
 
     }
+
+    /* retrieveButton.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            sharedPreferences = getActivity().getSharedPreferences(myPreference, Context.MODE_PRIVATE);
+
+            if (sharedPreferences.contains(name)) {
+                nameEditText.setText(sharedPreferences.getString(name, ""));
+            }
+            if (sharedPreferences.contains(guestsCount)) {
+                guestsCountEditText.setText(sharedPreferences.getString(guestsCount, ""));
+
+            }
+        }
+    });
+
+    //Clear Button Click Listener
+        clearButton.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            guestsCountEditText.setText("");
+            nameEditText.setText("");
+        }
+    });
+}*/
 }

@@ -50,7 +50,13 @@ public class HotelListAdapter extends RecyclerView.Adapter<HotelListAdapter.View
         }
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    private ItemClickListener clickListener;
+
+    public void setClickListener(ItemClickListener itemClickListener) {
+        this.clickListener = itemClickListener;
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView hotelName, hotelPrice, hotelAvailability;
 
@@ -60,8 +66,16 @@ public class HotelListAdapter extends RecyclerView.Adapter<HotelListAdapter.View
             hotelPrice = itemView.findViewById(R.id.price_text_view);
             hotelAvailability = itemView.findViewById(R.id.availability_text_view);
 
+            itemView.setOnClickListener(this);
+
+        }
+
+        public void onClick(View view) {
+            if (clickListener != null)
+                clickListener.onClick(view, getAbsoluteAdapterPosition());
         }
 
     }
+
 
 }
