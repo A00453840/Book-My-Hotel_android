@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,11 +17,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
-
 import retrofit2.Callback;
 import retrofit2.Response;
-//import retrofit2.RetrofitError;
 import retrofit2.Call;
 
 public class GuestListFragment extends Fragment implements ItemClickListener{
@@ -32,16 +30,16 @@ public class GuestListFragment extends Fragment implements ItemClickListener{
     Button reserveButton;
     ReserveConfirmationData reserveConfirmation = new ReserveConfirmationData("null");
 
-    public ArrayList<GuestListData> initGuestListData() {
-        ArrayList<GuestListData> list = new ArrayList<>();
-
-        list.add(new GuestListData("G 1",  "Male"));
-        list.add(new GuestListData("G 2",  "Female"));
-        list.add(new GuestListData("G 3",  "Male"));
-        list.add(new GuestListData("G 4",  "Female"));
-
-        return list;
-    }
+//    public ArrayList<GuestListData> initGuestListData() {
+//        ArrayList<GuestListData> list = new ArrayList<>();
+//
+//        list.add(new GuestListData("G 1",  "Male"));
+//        list.add(new GuestListData("G 2",  "Female"));
+//        list.add(new GuestListData("G 3",  "Male"));
+//        list.add(new GuestListData("G 4",  "Female"));
+//
+//        return list;
+//    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -56,7 +54,7 @@ public class GuestListFragment extends Fragment implements ItemClickListener{
         super.onViewCreated(view, savedInstanceState);
 
         //heading text view
-        headingTextView = view.findViewById(R.id.hotel_recap_text_view);
+//        headingTextView = view.findViewById(R.id.hotel_recap_text_view);
         progressBar = view.findViewById(R.id.progress_bar);
         reserveButton = view.findViewById(R.id.reserve_button);
         reNum = view.findViewById(R.id.reservation_number_text_view);
@@ -70,17 +68,8 @@ public class GuestListFragment extends Fragment implements ItemClickListener{
         checkIn = getArguments().getString("CheckIn date");
         checkOut = getArguments().getString("CheckOut date");
 
-        hotelRecapTextView.setText("You have selected " +hotelName+ ". The cost will be "+hotelPrice+ " and is " +hotelAvailability);
+        hotelRecapTextView.setText("You have selected " +hotelName+ " with check-in date "+checkIn+" and check-out date "+checkOut+". The cost will be "+hotelPrice+ "/night and is " +hotelAvailability);
 
-
-//         Set up the RecyclerView
-//        //ArrayList<GuestListData> guestListData = initGuestListData();
-//        RecyclerView recyclerView = view.findViewById(R.id.guest_list_recyclerView);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-//        HotelListAdapter hotelListAdapter = new HotelListAdapter(getActivity(), hotelListData);
-//        recyclerView.setAdapter(hotelListAdapter);
-
-//        getGuestsListsData();
 
         progressBar.setVisibility(View.VISIBLE);
         setupRecyclerView();
@@ -113,9 +102,7 @@ public class GuestListFragment extends Fragment implements ItemClickListener{
             public void onResponse(Call<ReserveConfirmationData> call1, Response<ReserveConfirmationData> response) {
                 reserveConfirmation =response.body();
                 reservationNumber=reserveConfirmation.getReservationNumber();
-                System.out.println("--------- R.no: "+reservationNumber+" ----------");
-                //reNum.setText(reserveConfirmation.getReservationNumber());
-                //setupRecyclerView();
+//                System.out.println("--------- R.no: "+reservationNumber+" ----------");
 
                 Bundle bundle = new Bundle();
                 bundle.putString("hotel name", hotelName);
@@ -124,15 +111,11 @@ public class GuestListFragment extends Fragment implements ItemClickListener{
                 bundle.putString("number of guests", numberOfGuests);
                 bundle.putString("reservation number", reservationNumber);
 
-                System.out.println("--------- 2 R.no: "+reserveConfirmation.getReservationNumber()+" ----------");
-
-
                 // set Fragment class Arguments
                 ReserveConfirmationFragment reserveConfirmationFragment = new ReserveConfirmationFragment();
                 reserveConfirmationFragment.setArguments(bundle);
 
-//                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+               FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.main_layout, reserveConfirmationFragment);
                 fragmentTransaction.remove(GuestListFragment.this);
                 fragmentTransaction.addToBackStack(null);
@@ -142,8 +125,8 @@ public class GuestListFragment extends Fragment implements ItemClickListener{
 
             @Override
             public void onFailure(Call<ReserveConfirmationData> call1, Throwable error) {
-                headingTextView.setText("Error found is : " + error.getMessage());
-                System.out.println("Error found is : " + error.getMessage());
+                Toast.makeText(getActivity(), "Error found is : " + error.getMessage(), Toast.LENGTH_LONG).show();
+//                System.out.println("Error found is : " + error.getMessage());
             }
 
         });
@@ -159,30 +142,13 @@ public class GuestListFragment extends Fragment implements ItemClickListener{
         recyclerView.setAdapter(guestListAdapter);
 
         //Bind the click listener
-        guestListAdapter.setClickListener(this);
+        //guestListAdapter.setClickListener(this);
     }
 
 
 
     @Override
     public void onClick(View view, int position) {
-//        GuestListData guestListData = userListResponseData.get(position);
-//
-//        String guestName = guestListData.getGuest_name();
-//        String gender = guestListData.getGender();
-//
-//        Bundle bundle = new Bundle();
-//        bundle.putString("guest name", guestName);
-//        bundle.putString("gender", gender);
-//
-//        HotelGuestDetailsFragment hotelGuestDetailsFragment = new HotelGuestDetailsFragment();
-//        hotelGuestDetailsFragment.setArguments(bundle);
-//
-//        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-//        fragmentTransaction.remove(HotelListFragment.this);
-//        fragmentTransaction.replace(R.id.main_layout, hotelGuestDetailsFragment);
-//        fragmentTransaction.addToBackStack(null);
-//        fragmentTransaction.commitAllowingStateLoss();
 
     }
 

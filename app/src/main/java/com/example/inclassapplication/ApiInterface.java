@@ -12,7 +12,6 @@ public interface ApiInterface {
      //API's endpoints
     @GET("hotels")
     Call<List<HotelListData>> getHotelsLists();
-//    public void getHotelsLists(Callback<List<HotelListData>> callback);
 
     @POST("reserve/")
     Call <ReserveConfirmationData> createReservation(@Body ReservationData reservationData);

@@ -31,18 +31,18 @@ public class HotelListFragment extends Fragment implements ItemClickListener{
     ProgressBar progressBar;
     String numberOfGuests, checkOutDate, checkInDate;
 
-    public ArrayList<HotelListData> initHotelListData() {
-        ArrayList<HotelListData> list = new ArrayList<>();
-
-        list.add(new HotelListData("Hotel 1", "400$", "true"));
-        list.add(new HotelListData("Hotel 2", "300$", "true"));
-        list.add(new HotelListData("Hotel 3", "450$", "false"));
-        list.add(new HotelListData("Hotel 4", "350$", "true"));
-        list.add(new HotelListData("Hotel 5", "200$", "false"));
-        list.add(new HotelListData("Hotel 6", "500$", "false"));
-
-        return list;
-    }
+//    public ArrayList<HotelListData> initHotelListData() {
+//        ArrayList<HotelListData> list = new ArrayList<>();
+//
+//        list.add(new HotelListData("Hotel 1", "400$", "true"));
+//        list.add(new HotelListData("Hotel 2", "300$", "true"));
+//        list.add(new HotelListData("Hotel 3", "450$", "false"));
+//        list.add(new HotelListData("Hotel 4", "350$", "true"));
+//        list.add(new HotelListData("Hotel 5", "200$", "false"));
+//        list.add(new HotelListData("Hotel 6", "500$", "false"));
+//
+//        return list;
+//    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -68,13 +68,6 @@ public class HotelListFragment extends Fragment implements ItemClickListener{
         headingTextView.setText("Welcome user, displaying hotel for " + numberOfGuests + " guests staying from " + checkInDate +
                 " to " + checkOutDate);
 
-        // Set up the RecyclerView
-//        ArrayList<HotelListData> hotelListData = initHotelListData();
-//        RecyclerView recyclerView = view.findViewById(R.id.hotel_list_recyclerView);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-//        HotelListAdapter hotelListAdapter = new HotelListAdapter(getActivity(), hotelListData);
-//        recyclerView.setAdapter(hotelListAdapter);
-
         getHotelsListsData();
 
     }
@@ -95,23 +88,6 @@ public class HotelListFragment extends Fragment implements ItemClickListener{
             public void onFailure(Call<List<HotelListData>> call, Throwable t) {
                 Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_LONG).show();
             }
-
-//            @Override
-//            public void success(List<HotelListData> userListResponses, Response response) {
-//                // in this method we will get the response from API
-//                userListResponseData = userListResponses;
-//
-//
-//                // Set up the RecyclerView
-//                setupRecyclerView();
-//            }
-//
-//            @Override
-//            public void failure(RetrofitError error) {
-//                // if error occurs in network transaction then we can get the error in this method.
-//                Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_LONG).show();
-//
-//            }
         });
     }
 
@@ -135,25 +111,27 @@ public class HotelListFragment extends Fragment implements ItemClickListener{
         String price = hotelListData.getPrice();
         String availability = hotelListData.getAvailability();
 
-        Bundle bundle = new Bundle();
-        bundle.putString("hotel name", hotelName);
-        bundle.putString("hotel price", price);
-        bundle.putString("hotel availability", availability);
-        bundle.putString("number of guests", numberOfGuests);
-        bundle.putString("CheckIn date", checkInDate);
-        bundle.putString("CheckOut date", checkOutDate);
+        if(availability.equals("Unavailable")){
+            Toast.makeText(getActivity(), "Selected listing Unavailable", Toast.LENGTH_LONG).show();}
+        else {
+            Bundle bundle = new Bundle();
+            bundle.putString("hotel name", hotelName);
+            bundle.putString("hotel price", price);
+            bundle.putString("hotel availability", availability);
+            bundle.putString("number of guests", numberOfGuests);
+            bundle.putString("CheckIn date", checkInDate);
+            bundle.putString("CheckOut date", checkOutDate);
 
-//        HotelGuestDetailsFragment hotelGuestDetailsFragment = new HotelGuestDetailsFragment();
-//        hotelGuestDetailsFragment.setArguments(bundle);
+            GuestListFragment guestListFragment = new GuestListFragment();
+            guestListFragment.setArguments(bundle);
 
-        GuestListFragment guestListFragment = new GuestListFragment();
-        guestListFragment.setArguments(bundle);
+            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+            fragmentTransaction.remove(HotelListFragment.this);
+            fragmentTransaction.replace(R.id.main_layout, guestListFragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commitAllowingStateLoss();
 
-        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-        fragmentTransaction.remove(HotelListFragment.this);
-        fragmentTransaction.replace(R.id.main_layout, guestListFragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commitAllowingStateLoss();
+        }
 
     }
 

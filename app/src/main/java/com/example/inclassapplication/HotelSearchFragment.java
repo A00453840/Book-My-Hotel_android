@@ -36,7 +36,6 @@ public class HotelSearchFragment extends Fragment {
 
         view = inflater.inflate(R.layout.hotel_search_layout, container, false);
         return view;
-//        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override
@@ -45,7 +44,6 @@ public class HotelSearchFragment extends Fragment {
 
         mainLayout = view.findViewById(R.id.main_layout);
         titleTextView = view.findViewById(R.id.title_textView);
-//        searchtextConfirmationTextView = view.findViewById(R.id.serch_confirm_text-view)
 
         fromDatePicker = view.findViewById(R.id.from_date_picker);
         toDatePicker = view.findViewById(R.id.to_date_picker);
@@ -71,7 +69,6 @@ public class HotelSearchFragment extends Fragment {
                 HotelListFragment hotelsListFragment = new HotelListFragment();
                 hotelsListFragment.setArguments(bundle);
 
-//                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.main_layout, hotelsListFragment);
                 fragmentTransaction.remove(HotelSearchFragment.this);
@@ -80,34 +77,6 @@ public class HotelSearchFragment extends Fragment {
 
             }
         });
-
-//        numberOfGuests = guestsEditText.getText().toString();
-
-        //Set up the text of confirm text box
-//        confirmSearchButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                checkInDate = getDateFromCalendar(checkInDatePicker);
-//                checkOutDate = getDateFromCalendar(checkOutDatePicker);
-//                //Get input of guests count
-//                numberOfGuests = guestsCountEditText.getText().toString();
-//                guestName = nameEditText.getText().toString();
-//
-//
-//                // Saving into shared preferences
-//                sharedPreferences = getActivity().getSharedPreferences(myPreference, Context.MODE_PRIVATE);
-//                SharedPreferences.Editor editor = sharedPreferences.edit();
-//                editor.putString(name, guestName);
-//                editor.putString(guestsCount, numberOfGuests);
-//                editor.commit();
-//
-//
-//
-//                searchTextConfirmationTextView.setText("Dear Customer, Your check in date is " + checkInDate + ", " +
-//                        "your checkout date is " + checkOutDate + ".The number of guests are " + numberOfGuests);
-//            }
-//        });
-
 
     }
 
@@ -125,28 +94,4 @@ public class HotelSearchFragment extends Fragment {
 
     }
 
-    /* retrieveButton.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            sharedPreferences = getActivity().getSharedPreferences(myPreference, Context.MODE_PRIVATE);
-
-            if (sharedPreferences.contains(name)) {
-                nameEditText.setText(sharedPreferences.getString(name, ""));
-            }
-            if (sharedPreferences.contains(guestsCount)) {
-                guestsCountEditText.setText(sharedPreferences.getString(guestsCount, ""));
-
-            }
-        }
-    });
-
-    //Clear Button Click Listener
-        clearButton.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            guestsCountEditText.setText("");
-            nameEditText.setText("");
-        }
-    });
-}*/
 }

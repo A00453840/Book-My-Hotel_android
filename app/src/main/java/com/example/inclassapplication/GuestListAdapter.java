@@ -14,14 +14,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class GuestListAdapter extends RecyclerView.Adapter<GuestListAdapter.ViewHolder>{
 
     private int numOfGuests;
     private LayoutInflater layoutInflater;
-
-    String guest_name,gender;
     static ArrayList<GuestListData> guestList = new ArrayList<>();
 
     //Data gets passed in the constructor
