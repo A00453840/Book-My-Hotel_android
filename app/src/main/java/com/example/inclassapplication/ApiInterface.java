@@ -1,15 +1,20 @@
 package com.example.inclassapplication;
 
 import java.util.List;
-import retrofit.Callback;
-import retrofit.http.GET;
-import retrofit.http.POST;
-import retrofit.http.Query;
+
+import retrofit2.http.GET;
+import retrofit2.Call;
+import retrofit2.http.Body;
+import retrofit2.http.POST;
 
 public interface ApiInterface {
 
      //API's endpoints
-    @GET("/hotels")
-    public void getHotelsLists(Callback<List<HotelListData>> callback);
+    @GET("hotels")
+    Call<List<HotelListData>> getHotelsLists();
+//    public void getHotelsLists(Callback<List<HotelListData>> callback);
+
+    @POST("reserve/")
+    Call <ReserveConfirmationData> createReservation(@Body ReservationData reservationData);
 
 }

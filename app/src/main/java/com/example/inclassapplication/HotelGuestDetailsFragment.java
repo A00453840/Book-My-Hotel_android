@@ -18,7 +18,7 @@ public class HotelGuestDetailsFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.hotel_guest_details_fragment, container, false);
+        view = inflater.inflate(R.layout.guest_list_fragment, container, false);
         return view;
     }
 

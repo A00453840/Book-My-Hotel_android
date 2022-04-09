@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.Spinner;
 import android.widget.Toast;
 import android.widget.TextView;
 
@@ -19,15 +18,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-import retrofit.client.Response;
-import retrofit.Callback;
-import retrofit.RetrofitError;
+//import retrofit2.client.Response;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+//import retrofit2.RetrofitError;
 
 public class HotelListFragment extends Fragment implements ItemClickListener{
 
     View view;
     TextView headingTextView;
     ProgressBar progressBar;
+    String numberOfGuests;
 
     public ArrayList<HotelListData> initHotelListData() {
         ArrayList<HotelListData> list = new ArrayList<>();
@@ -46,7 +48,7 @@ public class HotelListFragment extends Fragment implements ItemClickListener{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.hotel_list_test_layout, container, false);
+        view = inflater.inflate(R.layout.hotel_list_test_fragment, container, false);
         return view;
     }
 
@@ -60,7 +62,7 @@ public class HotelListFragment extends Fragment implements ItemClickListener{
 
         String checkInDate = getArguments().getString("check in date");
         String checkOutDate = getArguments().getString("check out date");
-        String numberOfGuests = getArguments().getString("number of guests");
+        numberOfGuests = getArguments().getString("number of guests");
 
         //Set up the header
         headingTextView.setText("Welcome user, displaying hotel for " + numberOfGuests + " guests staying from " + checkInDate +
@@ -81,23 +83,35 @@ public class HotelListFragment extends Fragment implements ItemClickListener{
 
     private void getHotelsListsData() {
         progressBar.setVisibility(View.VISIBLE);
-        Api.getClient().getHotelsLists(new Callback<List<HotelListData>>() {
+        Call<List<HotelListData>> call = Api.getClient().getHotelsLists();
+        call.enqueue(new Callback<List<HotelListData>>() {
             @Override
-            public void success(List<HotelListData> userListResponses, Response response) {
-                // in this method we will get the response from API
-                userListResponseData = userListResponses;
-
-
-                // Set up the RecyclerView
+            public void onResponse(Call<List<HotelListData>> call1, Response<List<HotelListData>> response) {
+                userListResponseData = response.body();
                 setupRecyclerView();
             }
 
             @Override
-            public void failure(RetrofitError error) {
-                // if error occurs in network transaction then we can get the error in this method.
-                Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_LONG).show();
-
+            public void onFailure(Call<List<HotelListData>> call, Throwable t) {
+                Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_LONG).show();
             }
+
+//            @Override
+//            public void success(List<HotelListData> userListResponses, Response response) {
+//                // in this method we will get the response from API
+//                userListResponseData = userListResponses;
+//
+//
+//                // Set up the RecyclerView
+//                setupRecyclerView();
+//            }
+//
+//            @Override
+//            public void failure(RetrofitError error) {
+//                // if error occurs in network transaction then we can get the error in this method.
+//                Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_LONG).show();
+//
+//            }
         });
     }
 
@@ -125,13 +139,17 @@ public class HotelListFragment extends Fragment implements ItemClickListener{
         bundle.putString("hotel name", hotelName);
         bundle.putString("hotel price", price);
         bundle.putString("hotel availability", availability);
+        bundle.putString("number of guests", numberOfGuests);
 
-        HotelGuestDetailsFragment hotelGuestDetailsFragment = new HotelGuestDetailsFragment();
-        hotelGuestDetailsFragment.setArguments(bundle);
+//        HotelGuestDetailsFragment hotelGuestDetailsFragment = new HotelGuestDetailsFragment();
+//        hotelGuestDetailsFragment.setArguments(bundle);
+
+        GuestListFragment guestListFragment = new GuestListFragment();
+        guestListFragment.setArguments(bundle);
 
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
         fragmentTransaction.remove(HotelListFragment.this);
-        fragmentTransaction.replace(R.id.main_layout, hotelGuestDetailsFragment);
+        fragmentTransaction.replace(R.id.main_layout, guestListFragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commitAllowingStateLoss();
 

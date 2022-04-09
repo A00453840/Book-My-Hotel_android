@@ -4,10 +4,14 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/nikhi/AndroidStudioProjects/InClassApplication/app/src/main/res/layout/activity_main.xml" value="0.1453804347826087" />
+        <entry key="..\:/Users/nikhi/AndroidStudioProjects/InClassApplication/app/src/main/res/layout/guest_list_fragment.xml" value="0.2" />
+        <entry key="..\:/Users/nikhi/AndroidStudioProjects/InClassApplication/app/src/main/res/layout/guest_list_layout.xml" value="0.22" />
         <entry key="..\:/Users/nikhi/AndroidStudioProjects/InClassApplication/app/src/main/res/layout/hotel_guest_details_fragment.xml" value="0.1859375" />
         <entry key="..\:/Users/nikhi/AndroidStudioProjects/InClassApplication/app/src/main/res/layout/hotel_list_layout.xml" value="0.14666666666666667" />
+        <entry key="..\:/Users/nikhi/AndroidStudioProjects/InClassApplication/app/src/main/res/layout/hotel_list_test_fragment.xml" value="0.2" />
         <entry key="..\:/Users/nikhi/AndroidStudioProjects/InClassApplication/app/src/main/res/layout/hotel_list_test_layout.xml" value="0.2" />
         <entry key="..\:/Users/nikhi/AndroidStudioProjects/InClassApplication/app/src/main/res/layout/hotel_search_layout.xml" value="0.2" />
+        <entry key="..\:/Users/nikhi/AndroidStudioProjects/InClassApplication/app/src/main/res/layout/reserve_confirmation_fragment.xml" value="0.2" />
       </map>
     </option>
   </component>
