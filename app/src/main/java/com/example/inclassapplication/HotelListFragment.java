@@ -29,7 +29,7 @@ public class HotelListFragment extends Fragment implements ItemClickListener{
     View view;
     TextView headingTextView;
     ProgressBar progressBar;
-    String numberOfGuests;
+    String numberOfGuests, checkOutDate, checkInDate;
 
     public ArrayList<HotelListData> initHotelListData() {
         ArrayList<HotelListData> list = new ArrayList<>();
@@ -60,8 +60,8 @@ public class HotelListFragment extends Fragment implements ItemClickListener{
         headingTextView = view.findViewById(R.id.heading_text_view);
         progressBar = view.findViewById(R.id.progress_bar);
 
-        String checkInDate = getArguments().getString("check in date");
-        String checkOutDate = getArguments().getString("check out date");
+        checkInDate = getArguments().getString("check in date");
+        checkOutDate = getArguments().getString("check out date");
         numberOfGuests = getArguments().getString("number of guests");
 
         //Set up the header
@@ -140,6 +140,8 @@ public class HotelListFragment extends Fragment implements ItemClickListener{
         bundle.putString("hotel price", price);
         bundle.putString("hotel availability", availability);
         bundle.putString("number of guests", numberOfGuests);
+        bundle.putString("CheckIn date", checkInDate);
+        bundle.putString("CheckOut date", checkOutDate);
 
 //        HotelGuestDetailsFragment hotelGuestDetailsFragment = new HotelGuestDetailsFragment();
 //        hotelGuestDetailsFragment.setArguments(bundle);

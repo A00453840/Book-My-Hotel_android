@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -25,18 +26,19 @@ import retrofit2.Call;
 public class GuestListFragment extends Fragment implements ItemClickListener{
 
     View view;
-    TextView headingTextView;
+    TextView headingTextView,reNum;
     ProgressBar progressBar;
-    String numberOfGuests;
+    String numberOfGuests, checkIn, hotelName, checkOut,reservationNumber;
     Button reserveButton;
+    ReserveConfirmationData reserveConfirmation = new ReserveConfirmationData("null");
 
     public ArrayList<GuestListData> initGuestListData() {
         ArrayList<GuestListData> list = new ArrayList<>();
 
-        list.add(new GuestListData("G 1",  "true"));
-        list.add(new GuestListData("G 2",  "true"));
-        list.add(new GuestListData("G 3",  "false"));
-        list.add(new GuestListData("G 4",  "true"));
+        list.add(new GuestListData("G 1",  "Male"));
+        list.add(new GuestListData("G 2",  "Female"));
+        list.add(new GuestListData("G 3",  "Male"));
+        list.add(new GuestListData("G 4",  "Female"));
 
         return list;
     }
@@ -57,13 +59,16 @@ public class GuestListFragment extends Fragment implements ItemClickListener{
         headingTextView = view.findViewById(R.id.hotel_recap_text_view);
         progressBar = view.findViewById(R.id.progress_bar);
         reserveButton = view.findViewById(R.id.reserve_button);
+        reNum = view.findViewById(R.id.reservation_number_text_view);
 
         TextView hotelRecapTextView = view.findViewById(R.id.hotel_recap_text_view);
 
-        String hotelName = getArguments().getString("hotel name");
+        hotelName = getArguments().getString("hotel name");
         String hotelPrice = getArguments().getString("hotel price");
         String hotelAvailability = getArguments().getString("hotel availability");
         numberOfGuests = getArguments().getString("number of guests");
+        checkIn = getArguments().getString("CheckIn date");
+        checkOut = getArguments().getString("CheckOut date");
 
         hotelRecapTextView.setText("You have selected " +hotelName+ ". The cost will be "+hotelPrice+ " and is " +hotelAvailability);
 
@@ -84,15 +89,42 @@ public class GuestListFragment extends Fragment implements ItemClickListener{
             @Override
             public void onClick(View view) {
 
+                progressBar.setVisibility(View.VISIBLE);
                 postGuestsListsData();
-
                 progressBar.setVisibility(View.GONE);
+
+            }
+        });
+
+    }
+
+
+//    ArrayList<GuestListData> guestListData = initGuestListData();
+
+    private void postGuestsListsData() {
+        ArrayList<GuestListData> guestListData = GuestListAdapter.getGuestList();
+        System.out.println(guestListData);
+        ReservationData modal = new ReservationData(hotelName,checkIn,checkOut, guestListData);
+
+        Call<ReserveConfirmationData> call = Api.getClient().createReservation(modal);
+
+        call.enqueue(new Callback<ReserveConfirmationData>() {
+            @Override
+            public void onResponse(Call<ReserveConfirmationData> call1, Response<ReserveConfirmationData> response) {
+                reserveConfirmation =response.body();
+                reservationNumber=reserveConfirmation.getReservationNumber();
+                System.out.println("--------- R.no: "+reservationNumber+" ----------");
+                //reNum.setText(reserveConfirmation.getReservationNumber());
+                //setupRecyclerView();
 
                 Bundle bundle = new Bundle();
                 bundle.putString("hotel name", hotelName);
-//                bundle.putString("check in date", checkInDate);
-//                bundle.putString("check out date", checkOutDate);
+                bundle.putString("check in date", checkIn);
+                bundle.putString("check out date", checkOut);
                 bundle.putString("number of guests", numberOfGuests);
+                bundle.putString("reservation number", reservationNumber);
+
+                System.out.println("--------- 2 R.no: "+reserveConfirmation.getReservationNumber()+" ----------");
 
 
                 // set Fragment class Arguments
@@ -107,34 +139,15 @@ public class GuestListFragment extends Fragment implements ItemClickListener{
                 fragmentTransaction.commit();
 
             }
-        });
-
-    }
-
-
-    ArrayList<GuestListData> guestListData = initGuestListData();
-    ReservationData modal = new ReservationData("Hotel1","20-02-2022","22-02-2022", guestListData);
-    String reserveNumber;
-    private void postGuestsListsData() {
-        progressBar.setVisibility(View.VISIBLE);
-
-        Call<ReserveConfirmationData> call = Api.getClient().createReservation(modal);
-
-        call.enqueue(new Callback<ReserveConfirmationData>() {
-            @Override
-            public void onResponse(Call<ReserveConfirmationData> call1, Response<ReserveConfirmationData> response) {
-                ReserveConfirmationData reserveConfirmation =response.body();
-                System.out.println("--------- R.no: "+reserveConfirmation.getReservationNumber()+" ----------");
-                //headingTextView.setText("Conf : " + reserveNumber);
-                setupRecyclerView();
-            }
 
             @Override
             public void onFailure(Call<ReserveConfirmationData> call1, Throwable error) {
                 headingTextView.setText("Error found is : " + error.getMessage());
+                System.out.println("Error found is : " + error.getMessage());
             }
 
         });
+
 
     }
 

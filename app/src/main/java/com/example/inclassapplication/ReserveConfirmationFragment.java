@@ -16,7 +16,7 @@ import java.util.ArrayList;
 public class ReserveConfirmationFragment extends Fragment{
 
     View view;
-    TextView headingTextView;
+    TextView headingTextView,reservationNumberTextView;
     ProgressBar progressBar;
 
     @Override
@@ -33,16 +33,20 @@ public class ReserveConfirmationFragment extends Fragment{
 
         //heading text view
         headingTextView = view.findViewById(R.id.confirmation_text_view);
+        reservationNumberTextView = view.findViewById(R.id.reservation_number_text_view);
         progressBar = view.findViewById(R.id.progress_bar);
 
         String checkInDate = getArguments().getString("check in date");
         String checkOutDate = getArguments().getString("check out date");
         String numberOfGuests = getArguments().getString("number of guests");
         String hotelName = getArguments().getString("hotel name");
+        String reservationNumber = getArguments().getString("reservation number");
 
         //Set up the header
         headingTextView.setText("Thank you! Reservation has been confirmed for " + numberOfGuests + " guests staying from " + checkInDate +
                 " to " + checkOutDate+" at "+hotelName);
+
+        reservationNumberTextView.setText("Your Reservation Number is - "+reservationNumber);
 
 
     }
